@@ -1,0 +1,1121 @@
+/* =========================================
+   1. RESET Y CONFIGURACIÓN (Limpieza total)
+   ========================================= */
+* { /* Quita los márgenes y rellenos que traen los navegadores por defecto (como Chrome o Edge) */
+    margin: 0;
+    padding: 0; /* IMPORTANTE: Hace que si añades padding a una caja, NO se haga más grande. Si una caja mide 100px, seguirá midiendo 100px aunque le metas relleno. */
+    box-sizing: border-box; 
+}
+
+:root { /* Estas son tus "pinturas". Las guardamos aquí para usarlas con var(--nombre) */
+    --verde-principal: #5b7065;
+    --oscuro-fondo: #939a9c;
+    --fondo-secundario: #304040;
+    --verde-claro: #c9d1c8;
+    --texto-claro: #f4f4f4;
+    --fuente-titulos: 'Oswald', sans-serif;
+    --fuente-cuerpo: 'Montserrat', sans-serif; /* Guardamos la altura del menú aquí para no tener que escribir "90px" mil veces */
+    --altura-menu: 110px; 
+}
+
+html { /* Hace que al pulsar en "Contacto", la pantalla baje suavemente en lugar de dar un salto */
+    scroll-behavior: smooth; /* TRUCO: Por defecto 1rem = 16px. Al poner 62.5%, hacemos que 1rem = 10px.¡Ahora es mucho más fácil calcular! (ej: 1.6rem = 16px) */
+    font-size: 62.5%; 
+}
+
+body {
+    background-color: #9a939c4f;
+    color: var(--texto-claro);
+    font-family: var(--fuente-cuerpo); /* Como pusimos el truco del 62.5%, esto son 16px exactos */
+    font-size: 1.6rem;  /* La separación entre líneas de texto para que sea fácil de leer */
+    line-height: 1.6; /* SOLUCIÓN AL TEXTO TAPADO: Le damos al cuerpo de la web un "colchón" arriba exactamente igual a lo que mide el menú para que nada se esconda debajo. */
+    padding-top: var(--altura-menu); 
+}
+
+    /* Estado inicial: invisible y un poco abajo */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+/* Estado activo: cuando el JS detecta que entra en pantalla */
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Retrasos predefinidos */
+.delay-1 { transition-delay: 0.2s !important; }
+.delay-2 { transition-delay: 0.4s !important; }
+.delay-3 { transition-delay: 0.6s !important; }
+.delay-4 { transition-delay: 0.8s !important; }
+.delay-5 { transition-delay: 1s !important; }
+.delay-6 { transition-delay: 1.2s !important; }
+
+/* =========================================
+   2. NAVEGACIÓN (El menú que se queda arriba)
+   ========================================= */
+
+.menu-fijo { /* Fija el menú a la pantalla aunque hagas scroll */
+    position: fixed; /* Lo pega al borde superior e izquierdo */
+    top: 0;
+    left: 0; /* Hace que ocupe todo el ancho de la pantalla */
+    width: 100%; /* Usa nuestra variable de altura */
+    height: var(--altura-menu);
+    background-color: var(--oscuro-fondo); /* Lo pone en la capa de arriba de todo para que nada pase por encima de él */
+        opacity: 0.97; /* Le da un poquito de transparencia para que se vea el fondo oscuro debajo, pero sin pasarse para que el texto siga siendo legible */
+    z-index: 1000; /* ACTIVA FLEXBOX: Convierte al Logo y a la Lista en elementos flexibles */
+    display: flex; /* ALINEACIÓN VERTICAL: Centra el logo y los enlaces respecto al centro de la barra oscura */
+    align-items: center; /* ALINEACIÓN HORIZONTAL: Empuja todo al principio (izquierda) */
+    justify-content: flex-start; /* Crea un hueco de 60px entre el bloque del logo y el bloque del menú nav */
+    gap: 6rem; /* Da un margen interno a los lados para que el logo no toque el borde del monitor */
+    padding: 0 5%; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* El bloque que contiene la imagen y el texto del nombre */
+.logo {
+    display: flex;
+    align-items: center;/* Alinea el centro del tigre con el centro del texto */
+    gap: 1.5rem; /* Espacio entre el dibujo del tigre y el texto "Tattoo Art..." */
+    height: 100%;/* Ocupa toda la altura del menú para ayudar al centrado */
+}
+
+.logo img { /* Ajustamos el tamaño de la imagen para que "respire" dentro de los 90px de la barra */
+    height: 80px;   
+    width: auto; /* SOLUCIÓN AL ESPACIO DE ABAJO: Las imágenes por defecto se apoyan en una línea base. Al poner 'display: block', eliminamos ese pequeño margen invisible de abajo. */
+    display: block; 
+}
+
+.logo span {
+    font-family: var(--fuente-titulos);
+    font-size: 2.7rem;
+    color: var(--texto-claro); /* Pone el texto en mayúsculas sin tener que cambiarlo en el HTML */
+    text-transform: uppercase; /* Evita que el texto tenga "aire" invisible arriba o abajo */
+    align-items: center;
+    line-height: 1.2; /* Hace que si cambias el color al pasar el ratón, el cambio sea suave y no de golpe */
+    transition: color 0.3s ease; 
+}
+
+.logo span:hover {  /* Cambia al azul clarito de tu paleta */
+    color: var(--fondo-secundario); 
+}
+
+/* La lista <ul> de tus enlaces */
+.menu-fijo ul {
+    display: flex; /* Activa el modo flexible para que los enlaces se pongan uno al lado del otro (en fila) en lugar de uno debajo de otro. */
+    list-style: none; /* Este es el que realmente QUITA los puntos negros (bullets) de la lista. */
+    gap: 4rem; /* Este es el que crea el espacio (hueco) entre Galería, Nosotros y Contacto. */
+    align-items: center; /* Asegura que todos los textos de la lista estén centrados respecto al logo. */
+    padding: 0; /*¡Acuérdate de dejar esto a 0 para que no te descuadre el logo! */
+    margin: 0; /*¡Acuérdate de dejar esto a 0 para que no te descuadre el logo! */
+}
+
+.menu-fijo a {
+    color: var(--texto-claro); /* Quita el subrayado azul típico de los enlaces */
+    text-decoration: none;
+    font-family: var(--fuente-titulos);
+    font-size: 2rem;
+    text-transform: uppercase; /* Hace que si cambias el color al pasar el ratón, el cambio sea suave y no de golpe */
+    transition: color 0.3s ease; 
+}
+
+/* Qué pasa cuando pones el ratón encima de un enlace */
+.menu-fijo a:hover {  /* Cambia al verde claro de tu paleta */
+    color: var(--fondo-secundario); 
+}
+
+.menu-toggle {
+    display: none; /* Escondido siempre en pantallas grandes */
+}
+
+/* =========================================
+   3. COMPONENTES REUTILIZABLES
+   ========================================= */
+
+.boton-accion {
+    display: inline-block;      /* Convierte el enlace en una 'caja' para que acepte padding */
+    padding: 1.5rem 2rem;    /* Espacio interno: 15px arriba/abajo y 35px a los lados */
+    background-color: var(--verde-principal); /* Color de fondo (tu marrón de :root) */
+    color: var(--verde-claro);  /* Color de la letra (blanco/gris claro) */
+    letter-spacing: 2px; /* Espacio entre letras para que el texto se vea más elegante y "respire" */
+    text-decoration: none;      /* Quita el subrayado azul que traen los enlaces por defecto */
+    text-transform: uppercase;  /* Transforma el texto a MAYÚSCULAS automáticamente */
+    font-family: var(--fuente-titulos); /* Usa tu fuente 'Oswald' para el botón */
+    font-weight: bold;          /* Pone la letra en negrita para que resalte más */
+    font-size: 2rem!important;
+    min-width: 250px;          /* Le damos un ancho mínimo para que no se vea pequeño */
+    border-radius: 50px;         /* Redondea las esquinas un poquito (suaviza el diseño) */
+    transition: all 0.3s ease;  /* Hace que los cambios de color y tamaño sean suaves, no de golpe */
+    border: 2px solid transparent; /* Crea un borde invisible para que al hacer hover no 'salte' el botón */
+}
+
+.boton-accion:hover {
+    transform: scale(1.05);             /* Aumenta el tamaño del botón un 5% (efecto visual de click) */
+    cursor: pointer;                    /* Asegura que salga la 'manita' del ratón al posicionarse */
+}
+
+/* =========================================
+   4. SECCIÓN HERO
+   ========================================= */
+
+.hero-tattoo {
+    /* IMAGEN DE FONDO: Usamos un degradado negro transparente (0.6) sobre la foto para que el texto blanco se lea bien */
+    background-image: 
+        linear-gradient(rgba(0,0,0,0.0), rgba(0,0,0,0.0)),
+        url('../img/hero1.jpg'),
+        url('../img/hero3.jpg');
+   /* Controlamos el tamaño de cada una en el mismo orden */
+    background-size: 
+        cover,      /* El degradado cubre todo */
+        contain,    /* La mano se muestra entera */
+        contain;      /* La segunda imagen mide 500px, por ejemplo */
+    background-repeat: no-repeat; /* AÑADE ESTO: Evita que la foto se repita si es más pequeña que el espacio */
+    /* Posicionamos cada una donde queramos */
+    background-position: 
+        center,        /* Degradado centrado */
+        left center,  /* La mano pegada a la derecha */
+        right center;   /* La otra imagen pegada a la izquierda */
+    background-color: #000000;
+    height: 60vh;  /* Hace que la sección mida exactamente el 60% de la altura de la ventana */
+    display: flex;  /* Convierte el contenedor en flexible para mover lo que hay dentro */
+    flex-direction: column; /* Pone los elementos (título, texto, botón) uno debajo de otro */
+    align-items: center; /* Centra todos los elementos horizontalmente (en el eje X) */
+    justify-content: center; /* Centra todos los elementos verticalmente (en el eje Y) */
+    text-align: center; /* Asegura que las líneas de texto estén centradas entre sí */
+    color: var(--texto-claro);  /* Aplica tu color claro a todos los textos de esta sección */
+}
+
+.contenido-hero h1 {
+    font-family: var(--fuente-titulos); /* Aplica tu fuente Oswald de impacto */
+    font-size: 7rem; /* Tamaño de letra muy grande para el nombre principal */
+    margin-bottom: 2rem;  /* Separa el título del párrafo de abajo por 20px */
+    text-transform: uppercase; /* Escribe todo en mayúsculas automáticamente */
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5); /* Agrega una sombra negra suave para que el texto resalte sobre la imagen */
+    letter-spacing: 2px;  /* Da un pequeño espacio elegante entre cada letra */
+}
+
+.contenido-hero p {
+    font-size: 2rem; /* Tamaño de letra legible para el subtítulo */
+    margin-left: auto;  /* AÑADE ESTO: Centra el bloque del párrafo */
+    margin-right: auto; /* AÑADE ESTO: Centra el bloque del párrafo */
+    margin-bottom: 2rem;   /* Separa el texto del botón de acción */
+    max-width: 60rem;  /* Evita que el texto se estire mucho a los lados y canse la vista */
+    line-height: 1.4; /* Da aire entre las líneas del párrafo para que no estén pegadas */
+    text-align: center; /* Esto asegura que el texto dentro del bloque también esté centrado */
+}
+
+.contenido-hero .subtitulo-hero {
+    font-weight: 800;        /* Esto hace la letra más "gordita" (900 es el máximo) */
+    font-style: normal;      /* Esto quita cualquier cursiva */
+    font-size: 2.2rem;       /* Ajustas el tamaño a tu gusto */
+    color: var(--texto-claro); /* Usas tu variable de color */
+    margin-top: -1rem;       /* Para acercarlo un poco al título principal si quieres */
+}
+
+/* =========================================
+   5. SECCIÓN PORTAFOLIO (MEDIDA)
+   ========================================= */
+
+/* Contenedor general de los títulos */
+.seccion-portafolio {
+    text-align: center;         /* Centrado queda mucho más elegante para portafolios */
+    padding: 60px 0 40px;       /* Mucho aire arriba y abajo para que respire */
+    position: relative;
+    padding: 50px 0; /* Da un margen generoso arriba y abajo de TODO el portafolio */
+    padding-left: 1%;
+    padding-right: 1%;
+    width: 100%; /* Asegura que la sección use todo el ancho disponible */
+    box-sizing: border-box; /* ¡MUY IMPORTANTE! Evita que el padding haga la web más ancha que la pantalla */
+}
+
+/* Título principal: Nuestro Portafolio */
+.seccion-portafolio h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 6rem;          /* Grande y potente */
+    text-transform: uppercase;
+    letter-spacing: 8px;        /* Mucho espacio entre letras (estilo lujo) */
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Sombra muy sutil */
+    margin-bottom: 30px;
+}
+/* Subtítulo: Tatuajes que cuentan... */
+.seccion-portafolio .subtitulo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.2rem;
+    color: var(--verde-principal); /* Usamos tu color de marca aquí */
+    text-transform: italic;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 70px;
+}
+
+/* Título de la categoría: Diseño a medida... */
+.titulo-categoria {
+    font-family: 'Oswald', sans-serif;
+    font-size: 3rem;
+    color: #ffffff; /* Color suave para no quitar protagonismo */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Sombra muy sutil */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 40px; /* Separa el título con la línea de las tarjetas de abajo */
+}
+
+/* Detalle de diseño: Una línea fina que acompaña al título de categoría */
+.titulo-categoria::after {
+    content: "";
+    flex: 1;                    /* Hace que la línea ocupe todo el espacio sobrante */
+    height: 3px;
+    background: linear-gradient(to right, rgba(91, 112, 101, 0.8), transparent);
+    align-self: center;        /* Centra la línea verticalmente respecto a los textos */
+}
+
+.titulo-categoria .resaltado {
+    color: var(--verde-principal); /* Aplicamos tu color de marca */
+    font-size: 1.5em;              /* Lo hace un 50% más grande que el texto de al lado */
+    font-weight: 700;              /* Le da más grosor (Oswald Bold) */
+    display: inline-block;         /* Permite que el tamaño afecte bien a la línea */
+    margin-left: 5px;             /* Separa un poco del texto anterior */
+    transition: transform 0.3s ease; /* Por si quieres que haga algo al pasar el ratón */
+}
+
+/* Opcional: un pequeño efecto cuando pasas el ratón por el título */
+.titulo-categoria:hover .resaltado {
+    transform: scale(1.05);        /* Crece un pelín más al hacer hover */
+    text-shadow: 0 0 10px rgba(var(--verde-principal-rgb), 0.3); /* Brillo suave */
+}
+
+/* Contenedor principal de la sección */
+.sección-medida {
+    display: block;             /* Comportamiento normal para que el H2 ocupe su propia línea */
+    padding: 20px;
+    text-align: left;           /* Alineación del título principal de la sección */
+}
+
+.sección-medida, 
+.sección-fineline, 
+.sección-inspirate {
+    margin-bottom: 50px; /* Separa cada grupo de fotos por una distancia notable */
+}
+
+/* Fila que contiene las 5 tarjetas */
+.contenedor-tarjetas-medida {
+    display: flex;              /* Alinea los hijos (tarjetas) en una fila horizontal */
+    flex-direction: row;        /* Dirección horizontal */
+    justify-content: center;    /* Centra el grupo de tarjetas en la pantalla */
+    gap: 10px;                  /* Espacio uniforme entre cada tarjeta */
+    width: 100%;                /* Ocupa todo el ancho disponible */
+    margin-top: 20px;           /* Separación respecto al título superior */
+}
+
+/* La tarjeta individual (el contenedor de cada foto) */
+.tarjeta-medida {
+    flex: 1;                    /* Todas crecen y ocupan el mismo ancho equitativamente */
+    position: relative;         /* Referencia para que el texto absoluto no se salga de la tarjeta */
+    height: 500px;              /* Altura fija para mantener la simetría */
+    overflow: hidden;           /* Corta cualquier cosa que sobresalga (como el zoom de la foto) */
+    border-radius: 5px;         /* Esquinas suavemente redondeadas */
+    cursor: pointer;            /* Cambia el cursor para indicar que es interactivo */
+}
+
+/* Contenedor de la imagen y la imagen misma */
+.foto-medida, .foto-medida img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;          /* La imagen llena el espacio sin deformarse */
+    transition: transform 0.5s ease; /* Suaviza el efecto de zoom al pasar el ratón */
+}
+
+/* Base común para Título (h3) y Párrafo (p) dentro de la tarjeta */
+.tarjeta-medida h3, 
+.tarjeta-medida p {
+    position: absolute;         /* Flotan sobre la imagen */
+    left: 50%;                  /* Se posicionan al centro horizontal */
+    width: 90%;                 /* Ancho casi total para dejar margen a los lados */
+    color: white;               /* Color de texto */
+    z-index: 2;                 /* Se dibujan por encima de la capa oscura */
+    opacity: 0;                 /* Invisibles por defecto */
+    text-align: center;         /* Texto centrado */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* Sombra para leer bien sobre fotos claras */
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* Animación suave de aparición y subida */
+}
+
+/* Ajustes específicos del Título (H3) */
+.tarjeta-medida h3 { 
+    bottom: 120px;              /* Posición vertical desde abajo */
+    transform: translateX(-50%) translateY(30px); /* Centrado exacto + empieza 30px abajo */
+    font-size: 2rem; 
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;  /* Letras en mayúsculas */
+    letter-spacing: 3px;        /* Espacio entre letras para look profesional */
+    padding-bottom: 10px;       /* Espacio para la línea decorativa inferior */
+}
+
+/* La línea decorativa debajo del H3 */
+.tarjeta-medida h3::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;                  /* Centrada respecto al H3 */
+    transform: translateX(-50%); 
+    width: 60%;                 /* Largo inicial de la línea */
+    height: 3px;                /* Grosor de la línea */
+    background-color: var(--verde-principal); /* Tu color de marca */
+    transition: width 0.3s ease; /* La línea crecerá suavemente */
+}
+
+.sección-inspirate h4 { 
+    font-size: 2rem; 
+    font-family: 'Oswald', sans-serif;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Sombra muy sutil */
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;  /* Letras en mayúsculas */
+    letter-spacing: 3px;        /* Espacio entre letras para look profesional */
+    padding-bottom: 10px;       /* Espacio para la línea decorativa inferior */
+}
+
+/* Ajustes específicos del Párrafo (P) */
+.tarjeta-medida p { 
+    bottom: 30px;               /* Posición vertical (más abajo que el título) */
+    transform: translateX(-50%) translateY(30px); /* Centrado exacto + empieza 30px abajo */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 1.5rem;          /* Tamaño corregido para legibilidad */
+}
+
+/* Capa oscura de fondo (Overlay) que aparece al pasar el ratón */
+.tarjeta-medida::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 70%); /* Degradado de negro a transparente */
+    opacity: 0;                 /* Invisible por defecto */
+    transition: opacity 0.4s ease;
+    z-index: 1;                 /* Por debajo del texto pero sobre la foto */
+}
+
+/* --- ESTADOS HOVER (Cuando el ratón está encima) --- */
+
+.tarjeta-medida:hover img {
+    transform: scale(1.1);      /* Zoom suave a la foto */
+}
+
+.tarjeta-medida:hover h3, 
+.tarjeta-medida:hover p {
+    opacity: 1;                 /* El texto se hace visible */
+    transform: translateX(-50%) translateY(0); /* El texto sube a su posición final */
+}
+
+.tarjeta-medida:hover h3::after {
+    width: 100%;                /* La línea verde se expande al ancho total del texto */
+}
+
+.tarjeta-medida:hover::after {
+    opacity: 1;                 /* La capa oscura aparece para resaltar el texto */
+}
+
+/* =========================================
+   5. SECCIÓN PORTAFOLIO (FINELINE)
+   ========================================= */
+
+   /* El contenedor que envuelve las 5 tarjetas */
+.sección-fineline {
+    display: block; 
+    padding: 20px;
+    text-align: left; /* Centra el título H2 */
+}
+
+.contenedor-tarjetas-fineline {
+    display: flex; /* Alinea tarjetas en fila */
+    flex-direction: row; /* Horizontal */
+    justify-content: center; /* Centra el grupo de fotos */
+    gap: 10px; /* Espacio entre fotos como en tu referencia */
+    width: 100%;
+    margin-top: 20px; /* Separa las fotos del título */
+}
+
+.tarjeta-fineline {
+    flex: 1; /* Todas las tarjetas miden lo mismo */
+    position: relative; /* Necesario para que el texto "flote" dentro */
+    height: 500px; /* Altura fija para que todas sean iguales */
+    overflow: hidden; /* Para que la imagen no se salga al hacerse grande */
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* La imagen de fondo */
+.foto-fineline {
+    width: 100%;
+    height: 100%;
+}
+
+.foto-fineline img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Foto perfecta sin deformar */
+    transition: transform 0.5s ease; /* Suaviza el zoom */
+}
+
+/* El texto que aparecerá encima (h3 y p) */
+.tarjeta-fineline h3, 
+.tarjeta-fineline p {
+    position: absolute; /* Flotan sobre la imagen */
+    left: 0;
+    right: 0;
+    color: white;
+    padding: 15px;
+    z-index: 2;
+    opacity: 0; /* Invisibles al principio */
+    transition: opacity 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* Para que se lea bien sobre cualquier foto */
+}
+
+.tarjeta-fineline h3 { bottom: 80px; font-size: 1.4rem; }
+.tarjeta-fineline p { bottom: 20px; font-size: 0.9rem; }
+
+/* Capa oscura para que el texto resalte mejor al hacer hover */
+.tarjeta-fineline::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* EFECTOS AL PASAR EL CURSOR (HOVER) */
+.tarjeta-fineline:hover img {
+    transform: scale(1.1); /* La imagen se hace más grande */
+}
+
+.tarjeta-fineline:hover h3, 
+.tarjeta-fineline:hover p,
+.tarjeta-fineline:hover::after {
+    opacity: 1; /* Todo aparece al pasar el ratón */
+}
+
+/* =========================================
+   5. SECCIÓN PORTAFOLIO (INSPIRATE)
+   ========================================= */
+
+/* El contenedor que envuelve las 5 tarjetas */
+.sección-inspirate {
+    display: block; 
+    padding: 20px;
+    text-align: left; /* Centra el título H2 */
+}
+
+.contenedor-tarjetas-inspirate {
+    display: flex; /* Alinea tarjetas en fila */
+    flex-direction: row; /* Horizontal */
+    justify-content: center; /* Centra el grupo de fotos */
+    gap: 10px; /* Espacio entre fotos como en tu referencia */
+    width: 100%;
+    margin-top: 20px; /* Separa las fotos del título */
+}
+
+.tarjeta-inspirate {
+    flex: 1; /* Todas las tarjetas miden lo mismo */
+    position: relative; /* Necesario para que el texto "flote" dentro */
+    height: 500px; /* Altura fija para que todas sean iguales */
+    overflow: hidden; /* Para que la imagen no se salga al hacerse grande */
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* La imagen de fondo */
+.foto-inspirate {
+    width: 100%;
+    height: 100%;
+}
+
+.foto-inspirate img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Foto perfecta sin deformar */
+    transition: transform 0.5s ease; /* Suaviza el zoom */
+}
+
+/* El texto que aparecerá encima (h3 y p) */
+.tarjeta-inspirate h3, 
+.tarjeta-inspirate p {
+    position: absolute; /* Flotan sobre la imagen */
+    left: 0;
+    right: 0;
+    color: white;
+    padding: 15px;
+    z-index: 2;
+    opacity: 0; /* Invisibles al principio */
+    transition: opacity 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* Para que se lea bien sobre cualquier foto */
+}
+
+.tarjeta-inspirate h3 { bottom: 80px; font-size: 1.4rem; }
+.tarjeta-inspirate p { bottom: 20px; font-size: 0.9rem; }
+
+/* Capa oscura para que el texto resalte mejor al hacer hover */
+.tarjeta-inspirate::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* EFECTOS AL PASAR EL CURSOR (HOVER) */
+.tarjeta-inspirate:hover img {
+    transform: scale(1.1); /* La imagen se hace más grande */
+}
+
+.tarjeta-inspirate:hover h3, 
+.tarjeta-inspirate:hover p,
+.tarjeta-inspirate:hover::after {
+    opacity: 1; /* Todo aparece al pasar el ratón */
+}
+
+/* =========================================
+   6. SECCION NOSOTROS
+   ========================================= */
+
+.seccion-nosotros {
+    padding: 100px 0;
+    background: linear-gradient(to right,
+        rgba(48, 64, 64, 0.1) 0%,
+        rgba(48, 64, 64, 0) 100%); /* Un tono grisáceo suave que pega con tu web */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../img/studio2.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover; /* Cubre todo el ancho de la sección */
+    /* Un truco para asegurar que la imagen de fondo sea tenue */
+    background-blend-mode: overlay;
+    background-color: rgba(255, 255, 255, 0.9); /* Aclara y difumina la imagen rosa */
+
+}
+
+.contenedor-grid-nosotros {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr; /* Mismo reparto de columnas */
+    align-items: center;
+    gap: 20px; /* Espacio entre columnas */
+    /* Ampliamos el contenedor un poco para que el óvalo tenga sitio */
+    max-width: 1200px; 
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+/* El círculo/óvalo del centro */
+.marco-ovalado {
+    max-width: 450px; 
+    margin: 0 auto;
+    
+    /* Proporción: 1 de ancho por 1.3 de alto (menos estirado, más imponente) */
+    aspect-ratio: 1 / 1.3; 
+    
+    border-radius: 1000px; 
+    overflow: hidden;
+    
+    /* Grosor del borde proporcional al nuevo tamaño */
+    border: 4px solid var(--verde-claro);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+}
+
+.marco-ovalado img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Para que no se deforme */
+}
+
+/* Estilos de texto adaptados a lo que ya tienes */
+.columna-texto-izq h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 6rem;
+    text-align: left;
+    line-height: 1.2;
+    color: #304040;
+    padding-right: 40px;
+}
+
+
+.columna-texto-izq h2 .resaltado-tattoo {
+    color: var(--verde-principal); /* Aplicamos tu color de marca */
+    font-size: 1.3em;              /* Lo hace un 50% más grande que el texto de al lado */
+    font-weight: 700;              /* Le da más grosor (Oswald Bold) */
+    transition: transform 0.3s ease; /* Por si quieres que haga algo al pasar el ratón */
+    display: inline-block;         /* Permite que el tamaño afecte bien a la línea */
+    margin-left: 5px;             /* Separa un poco del texto anterior */
+}
+
+.columna-texto-der p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    color: #555;
+    padding-left: 40px;
+}
+
+/* Botón tipo "Pastilla" como el de la foto */
+.boton-guia {
+    display: inline-block;
+    padding: 15px 35px;
+    background-color: white;
+    color: #304040;
+    text-decoration: none;
+    border-radius: 50px;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    margin-left: 60px;
+
+}
+
+.boton-guia:hover {
+    background-color: #304040;
+    color: white;
+
+}
+
+/* =========================================
+   7. SECCION EVENTOS
+   ========================================= */
+
+.seccion-eventos {
+    padding: 100px 0;
+    display: flex;
+    flex-direction: column; /* Esto es la clave: los pone en vertical */
+    align-items: center;    /* Los centra horizontalmente */
+    gap: 100px;
+    justify-content: center;
+}
+
+.contenedor-eventos {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Mitad y mitad */
+    align-items: center;
+    gap: 80px; /* Mucho espacio para que respire como la foto original */
+    max-width: 1200px;
+}
+
+/* Imagen con bordes rectos o ligeramente redondeados */
+.columna-img-eventos img {
+    width: 100%;
+    height: auto;
+    display: block;
+    box-shadow: 20px 20px 0px var(--verde-principal); /* Un detalle de diseño para tu marca */
+}
+
+.columna-info-eventos h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 5rem;          /* Grande y potente */
+    text-transform: uppercase;
+    letter-spacing: 6px;        /* Mucho espacio entre letras (estilo lujo) */
+    color: white;
+    line-height: 1.3;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Sombra muy sutil */
+    margin-bottom: 30px;
+}
+
+.columna-info-eventos h2 .resaltado-tattoo {
+    color: var(--verde-principal); /* Aplicamos tu color de marca */
+    font-size: 1.3em;              /* Lo hace un 50% más grande que el texto de al lado */
+    font-weight: 700;              /* Le da más grosor (Oswald Bold) */
+    display: inline-block;         /* Permite que el tamaño afecte bien a la línea */
+    margin-left: 5px;             /* Separa un poco del texto anterior */
+    transition: transform 0.3s ease; /* Por si quieres que haga algo al pasar el ratón */
+}
+
+.columna-info-eventos p {
+    white-space: pre-line;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+    color: var(--fondo-secundario);
+    line-height: 1.8;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+/* Alineación del botón */
+.contenedor-boton {
+    margin-top: 40px;
+}
+
+/* Añade espacio entre la introducción y los eventos de Sanity */
+#sanity-eventos-container {
+    width: 100%;            /*  Para que ocupe todo el ancho del max-width */
+    max-width: 1200px;      /*  Para que no se estire más que el de arriba */
+    margin-top: 0;
+}
+
+/* =========================================
+   8. SECCION CONTACTO
+   ========================================= */
+
+/* Contenedor principal del contacto */
+.contacto {
+    padding: 80px 20px;
+    text-align: center;
+    background-color: var(--oscuro-fondo) /* Fondo oscuro para que resalte la tarjeta */
+}
+
+.contenedor-contacto {
+    display: flex;
+    gap: 30px;           /* Espacio entre el form y la info */
+    align-items: stretch; /* Esto obliga a que todos los hijos tengan la misma altura máxima */
+    justify-content: center; /* Centra el conjunto de los dos bloques */
+    flex-wrap: wrap;     /* Para que en móvil uno baje debajo del otro */
+    margin-top: 40px;
+    padding-left: 5%;
+    padding-right: 5%;
+    width: 100%; /* Asegura que la sección use todo el ancho disponible */
+    box-sizing: border-box; /* ¡MUY IMPORTANTE! Evita que el padding haga la web más ancha que la pantalla */
+}
+
+
+/* Hacemos que cada parte ocupe un espacio similar */
+.form-tattoo, .info-contacto {
+    flex: 1;             
+    min-width: 300px;    /* Evita que se aplasten demasiado */
+}
+
+/* Títulos y párrafos de la sección */
+.contacto h2 {
+    font-family: 'Oswald', sans-serif;
+    color: var(--verde-claro);
+    font-size: 6rem;
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    letter-spacing: 8px;        /* Mucho espacio entre letras (estilo lujo) */ /* Sombra muy sutil */
+    margin-bottom: 30px;
+}
+
+.contacto h2 .resaltado-tattoo {
+    color: var(--verde-principal); /* Aplicamos tu color de marca */
+    font-size: 1.3em;              /* Lo hace un 50% más grande que el texto de al lado */
+    font-weight: 700;              /* Le da más grosor (Oswald Bold) */
+    display: inline-block;         /* Permite que el tamaño afecte bien a la línea */
+    margin-left: 5px;             /* Separa un poco del texto anterior */
+    transition: transform 0.3s ease; /* Por si quieres que haga algo al pasar el ratón */
+}
+
+.contacto h3 {
+    font-family: 'Oswald', sans-serif;
+    color: var(--fondo-secundario);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    font-size: 2.5rem;
+    text-transform: uppercase;
+}
+
+.contacto-header .resaltado {
+    color: var(--verde-principal); /* Aplicamos tu color de marca */
+    -webkit-text-stroke: 1px var(--verde-principal);
+    
+    font-size: 1.5em;              /* Lo hace un 50% más grande que el texto de al lado */
+    font-weight: 700;              /* Le da más grosor (Oswald Bold) */
+    display: inline-block;         /* Permite que el tamaño afecte bien a la línea */
+    text-transform: uppercase;
+    margin-left: 5px;             /* Separa un poco del texto anterior */
+    transition: transform 0.3s ease; /* Por si quieres que haga algo al pasar el ratón */
+}
+
+/* Opcional: un pequeño efecto cuando pasas el ratón por el título */
+.contacto-header:hover .resaltado {
+    transform: scale(1.05);        /* Crece un pelín más al hacer hover */
+    text-shadow: 0 0 10px rgba(var(--verde-principal-rgb), 0.3); /* Brillo suave */
+}
+
+.contacto p {
+    color: var(--verde-claro);
+    font-size: 2.7rem;
+    font-family: 'OSwald', sans-serif;
+}
+
+.contacto-header {
+    text-align: center;
+    margin-bottom: 50px; /* Espacio antes de que empiecen las tarjetas */
+}
+
+/* =========================================
+   SECCION FORMULARIO 
+   ========================================= */
+
+/* La "Tarjeta" blanca del formulario */
+.form-tattoo {
+    background-color: white;
+    max-width: 600px; /* Ancho controlado como en la foto */
+    margin: 40px 0; /* Centrado horizontal */
+    padding: 40px;
+    border-radius: 30px; /* Bordes muy redondeados tipo "móvil" */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Sombra para dar profundidad */
+    display: flex;
+    flex-direction: column;
+    text-align: left; /* El texto de los labels a la izquierda */
+}
+
+/* Estilo de las etiquetas (Labels) */
+.form-tattoo label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem; /* Ajustado para que no sea gigante, pero sea legible */
+    font-weight: 700;
+    color: #304040; /* Tu color principal */
+    margin-bottom: 8px;
+    margin-top: 15px;
+}
+
+/* Estilo de los Inputs y Textarea */
+.form-tattoo input, 
+.form-tattoo textarea {
+    padding: 15px;
+    margin-bottom: 20px; /* Crea aire entre cada campo del formulario */
+    border: 1px solid #eee;
+    border-radius: 12px; /* Bordes redondeados en los campos */
+    background-color: #f9f9f9;
+    font-family: 'Montserrat', sans-serif;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-tattoo input:focus, 
+.form-tattoo textarea:focus {
+    border-color: #304040; /* Resalta con tu color al hacer clic */
+}
+
+/* El Botón de Enviar */
+.boton-accion {
+    margin-top: 30px;
+    padding: 15px;
+    background-color: #304040; /* Tu color principal */
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.boton-accion:hover {
+    background-color: #405555; /* Un tono un pelín más claro al pasar el ratón */
+    transform: translateY(-2px); /* Efecto de levante */
+}
+
+/* =========================================
+   SECCION INFO 
+   ========================================= */
+
+.info-contacto {
+    flex: 1;
+    min-width: 300px;
+    text-align: left;       /* Asegura que los datos se lean de izquierda a derecha */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 40px;      /* Para que se alinee visualmente con el inicio del form */
+    background-color: white;
+    max-width: 600px; /* Ancho controlado como en la foto */
+    margin: 40px 0; /* Centrado horizontal */
+    padding: 40px;
+    border-radius: 30px; /* Bordes muy redondeados tipo "móvil" */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Sombra para dar profundidad */
+}
+
+.info-contacto h3 {
+    margin-top: 0;        /* Asegura que empiece arriba del todo */
+    margin-bottom: 30px;  /* Empuja el "Teléfono" hacia abajo */
+    font-family: 'Oswald', sans-serif;
+    font-size: 2.5rem;
+    color: #304040;
+}
+
+
+/* Estilo para los items de info */
+.dato-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.dato-item i {
+    font-size: 1.5rem;
+    color: var(--verde-principal); /* Usamos tu color de marca */
+}
+
+.dato-item p {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem; /* Ajustado para que no sea gigante, pero sea legible */
+    font-weight: 700;
+    color: #304040;
+    margin-bottom: 8px;
+    color: #304040;
+}
+
+.dato-item a {
+    font-size: 1.6rem;
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    color: #666;
+    transition: color 0.3s;
+}
+
+.dato-item a:hover {
+    color: var(--verde-principal);
+}
+
+/* =========================================
+   SECCION INFO MAPA
+   ========================================= */
+
+.mapa-contenedor {
+    margin-top: auto; /* Empuja el mapa hacia el final de la tarjeta si esta se estira */
+    padding-top: 20px;
+    width: 100%;
+}
+
+.mapa-contenedor iframe {
+    border-radius: 20px; /* Bordes redondeados para que pegue con la tarjeta */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Una sombra suave para dar profundidad */
+    filter: grayscale(0.3); /* Un toque artístico opcional para que pegue con tu web de tattoos */
+}
+
+/* Asegúrate de que la tarjeta sea flexible para albergar el mapa */
+.info-contacto {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Cambiamos a start para que los datos estén arriba y el mapa abajo */
+}
+
+/* =========================================
+   9. FOOTER
+   ========================================= */
+
+.footer-principal {
+    margin-top: 0; /* Eliminamos el margen superior que dejaba ver el fondo anterior */
+    padding-top: 80px; 
+    background-color: #111; /* Negro sólido sutil */
+    position: relative;
+    overflow: visible; /* Para que el logo sobresalga */
+}
+
+.contenedor-footer {
+   display: grid;
+    grid-template-columns: 1.2fr 1fr 1.2fr; /* Equilibrio de columnas */
+    align-items: end;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 50px 40px;
+}
+
+/* --- LOGO CENTRAL ELEVADO --- */
+.columna-footer-centro {
+    text-align: center;
+    position: relative;
+}
+
+.logo-footer-wrap {
+    background-color: var(--fondo-secundario); /* El color crema de tu referencia para el círculo del logo */
+    width: 200px;
+    height: 280px; /* Más alto que ancho para crear ese arco */
+    border-radius: 150px 150px 0 0; /* Solo redondeado arriba */
+    position: absolute;
+    bottom: -40px; /* Lo bajamos para que la base quede a ras del footer */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 -10px 20px rgba(0,0,0,0.2);
+}
+
+.logo-footer-wrap img {
+    width: 130px;
+    margin-top: -40px; /* Centramos el logo dentro del arco elevado */
+}
+/* --- ESTILOS DE ENLACES Y TEXTOS --- */
+.enlaces-footer {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+.enlaces-footer li { 
+    margin-bottom: 10px;
+
+}
+
+.enlaces-footer a {
+    color: var(--verde-claro);
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    font-size: 1.8rem;
+    transition: 0.3s;
+}
+
+.copy-web, .copy-web a {
+    font-size: 1.6rem;
+    color: #fff;
+    text-decoration: none;
+}
+
+.copy-web a {
+    color: var(--verde-principal); /* El azul de MN Design Web de tu captura */
+    font-weight: bold;
+}
+
+.enlaces-footer a:hover { 
+    color: var(--verde-principal); 
+}
+
+
+/* --- COLUMNA DERECHA: TODO A LA DERECHA --- */
+.columna-footer-der {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Empuja todo al borde derecho */
+    text-align: right;
+}
+
+.redes-footer {
+    display: flex;
+    gap: 70px; /* Mayor separación entre Instagram, WhatsApp y TikTok */
+    margin-bottom: 50px; /* Más espacio con los enlaces legales de abajo */
+    justify-content: flex-end; /* Asegura que se mantengan pegados a la derecha */
+}
+
+.redes-footer i {
+    color: #fff;
+    font-size: 6rem; /* Iconos visibles */
+    transition: transform 0.3s;
+}
+
+.redes-footer i:hover {
+    transform: translateY(-5px);
+    color: var(--verde-principal);
+
+}
+
+.legales-footer a {
+    font-size: 1.1rem;
+    color: #fff;
+    opacity: 0.6;
+    margin-left: 20px;
+    text-decoration: none;
+}
+
