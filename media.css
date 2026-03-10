@@ -34,7 +34,11 @@
         z-index: 1000;
         list-style: none; /* Quita los puntos de la lista */
     }
-
+    
+    ul.nav-list.active {
+        gap: 20px;
+    }
+    
     /* Cuando el JS añade la clase 'active' */
     .nav-list.active {
         display: flex !important;
