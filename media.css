@@ -41,6 +41,7 @@
     
     /* Cuando el JS añade la clase 'active' */
     .nav-list.active {
+        gap: 20px;
         display: flex !important;
         padding: 10px 0 !important; /* Reduce el área clicable de cada enlace */
         margin: 0 !important;
