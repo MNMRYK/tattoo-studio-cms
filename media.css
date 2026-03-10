@@ -30,7 +30,7 @@
         left: 0;
         width: 100%;
         background-color: #949c9c;
-        padding: 20px 0;
+        padding: auto;
         z-index: 1000;
         list-style: none; /* Quita los puntos de la lista */
     }
@@ -42,11 +42,15 @@
     /* Cuando el JS añade la clase 'active' */
     .nav-list.active {
         display: flex !important;
+        padding: 10px 0 !important; /* Reduce el área clicable de cada enlace */
+        margin: 0 !important;
     }
 
     .nav-list li {
-        margin: 15px 0;
-        text-align: center;
+        display: block;
+        padding: 3px 0 !important; /* Reduce el área clicable de cada enlace */
+        margin: 0 !important;
+        font-size: 1.5rem !important; /* Ajusta el tamaño de letra si es muy grande */
     }
 
     /* 3. Ajuste del Hero para que empiece justo donde acaba el menú */
