@@ -1,0 +1,946 @@
+
+@media (max-width: 1024px) { 
+    .menu-fijo {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #949c9c; 
+        z-index: 2000;
+        box-sizing: border-box; /* Evita que el padding ensanche el menú */
+    }
+
+    .menu-toggle {
+        display: block !important; /* Lo forzamos a aparecer */
+        font-size: 3rem;
+        color: #333; /* El color de tu texto gris */
+        cursor: pointer;
+        z-index: 1001;
+    }
+
+    .nav-list {
+        display: none !important; /* FORZAMOS el cierre inicial */
+        flex-direction: column;
+        position: absolute;
+        top: 100%; 
+        left: 0;
+        width: 100%;
+        background-color: #949c9c;
+        padding: 20px 0;
+        z-index: 1000;
+        list-style: none; /* Quita los puntos de la lista */
+    }
+
+    /* Cuando el JS añade la clase 'active' */
+    .nav-list.active {
+        display: flex !important;
+    }
+
+    .nav-list li {
+        margin: 15px 0;
+        text-align: center;
+    }
+
+    /* 3. Ajuste del Hero para que empiece justo donde acaba el menú */
+    .hero-tattoo {
+        margin-top: 0; /* Eliminamos cualquier margen superior */
+        padding-top: 100px; /* Ajusta este valor al alto de tu menú para que no tape el texto */
+    }
+}
+
+/* =================================================================================================
+    Responsivo para móviles
+   ============================================================================================== */
+
+@media (max-width: 768px) {
+
+    .hero {
+        padding-top: 60px !important; /* Quitamos el padding de arriba casi del todo */
+        min-height: 90vh !important; /* Le damos altura suficiente para el botón */
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .hero-content {
+        gap: 15px !important; /* Pegamos más el texto al botón */
+    }
+
+    /* Títulos de sección */
+    .columna-texto-izq h2, 
+    .seccion-eventos h2 {
+        font-size: 3.5rem !important; /* Tamaño legible en móvil */
+        text-align: center;
+        padding-right: 0;
+        line-height: 1.2;
+    }
+
+    /* Párrafos y botones */
+    .columna-texto-der p, 
+    .seccion-eventos p {
+        font-size: 1.4rem !important;
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .hero-tattoo {
+        /* 1. Ponemos la imagen de la derecha como fondo de toda la sección */
+        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                          url('../img/hero3.jpg'); /* Asegúrate de que esta sea la ruta a la foto de la mano */
+        background-size: cover;
+        background-position: center;
+        background-attachment: scroll; /* En móvil 'fixed' a veces da tirones */
+        
+        /* 2. Centramos todo el contenido */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: auto !important; 
+        min-height: 60vh !important; /* Ahora el fondo negro crecerá si el texto es largo */
+        padding: 30px 20px 30px !important;
+    }
+
+    .contenido-hero {
+        /* 3. El texto ahora es blanco para que resalte sobre el fondo oscuro */
+        color: white;
+        z-index: 2;
+        width: 100%;
+        line-height: 1.5;
+    }
+
+    .contenido-hero h1 {
+        font-size: 4rem !important; /* Ajustamos el tamaño para que no desborde */
+        margin-bottom: 15px;
+    }
+
+    .contenido-hero p {
+        font-size: 1.5rem; /* Tamaño de letra legible para el subtítulo */
+        margin-bottom: 15px !important;   /* Separa el texto del botón de acción */
+        line-height: 1.5 !important; /* Da aire entre las líneas del párrafo para que no estén pegadas */
+        max-width: 100%; /* Que use todo el ancho disponible del móvil */
+        padding: 0 10px; /* Aire extra a los lados del texto */
+    }
+
+    .subtitulo-hero {
+        font-size: 1.8rem !important;
+        margin-top: 30px !important;
+        font-weight: bold;
+    }
+
+    /* Si tenías un contenedor para la imagen de la izquierda, lo ocultamos */
+    .imagen-hero-izq, 
+    .hero-tattoo::before { 
+        display: none !important; 
+    }
+
+    .boton-accion {
+        display: inline-flex !important; /* Cambiamos a inline-flex para centrar mejor el texto */
+        justify-content: center;
+        align-items: center;
+        /* 1. Forzamos que el ancho sea solo el del contenido */
+        width: auto !important; 
+        min-width: 0 !important; /* IMPORTANTE: Reseteamos cualquier ancho mínimo previo */
+        max-width: fit-content !important; /* Le dice al botón: "mide solo lo que mida tu texto" */
+        padding: 18px 35px !important;      /* 2. Ajustamos el padding ahora sí */
+        font-size: 1.3rem !important;/* 3. El font-size es clave, si es muy grande, el botón será grande */
+        line-height: 1 !important;
+        height: auto !important;
+        margin: 5px auto 0 !important; /* El 'auto' a los lados lo centra si el padre es flex */
+    }
+
+    /* =========================================
+        SECCIONES PORTAFOLIO
+   ========================================= */
+
+    /* 1. Cambiamos Grid por Flex para poder centrar la última tarjeta */
+    .contenedor-tarjetas-medida, 
+    .contenedor-tarjetas-fineline, 
+    .contenedor-tarjetas-inspirate {
+        display: flex !important;
+        flex-wrap: wrap !important;      /* Permite que las tarjetas bajen de fila */
+        justify-content: center !important; /* CENTRA las tarjetas, incluida la última suelta */
+        margin-top: 0 !important; /* Estaba en 20px/30px */
+        gap: 15px !important; /* Espacio horizontal entre tarjetas */
+        width: 100% !important;
+    }
+
+    .sección-medida, 
+    .sección-fineline, 
+    .sección-inspirate {
+        margin-bottom: 30px !important; /* Estaba en 50px */
+        padding: 10px !important;
+    }
+
+    .seccion-portafolio {
+        padding: 40px 10px !important; /* Estaba en 60px/50px */
+    }
+
+    .seccion-portafolio h2{
+        font-size: 4rem;
+    }
+
+    .seccion-portafolio .subtitulo {
+        font-size: 1.3rem !important;
+        margin-bottom: 20px !important; /* Reducido de 70px a 20px */
+    }
+
+    /* 2. Definimos el ancho para que parezcan 2 columnas */
+    .tarjeta-medida, .tarjeta-fineline, .tarjeta-inspirate {
+        /* (50% del ancho - la mitad del gap) para que quepan dos exactas */
+        width: calc(50% - 10px) !important; 
+        min-width: 150px !important;      /* Evita que se deformen */
+        height: 300px !important;
+        flex-grow: 0 !important;          /* Evita que la última tarjeta se estire a lo ancho */
+        position: relative;
+        margin-top: 0 !important; /* Quitamos el margen superior extra */
+    }
+
+    /* 3. Textos siempre visibles y capa oscura (Tal como pediste) */
+    .tarjeta-medida h3, .tarjeta-fineline h3, .tarjeta-inspirate h3 { 
+        font-size: 1.2rem !important; 
+        bottom: 50px !important; 
+        z-index: 3;
+    }
+
+    .tarjeta-medida p, .tarjeta-fineline p, .tarjeta-inspirate p { 
+        display: none !important; 
+    }
+    
+    .tarjeta-medida::after {
+        opacity: 1 !important; 
+        z-index: 2;
+        background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%) !important;
+    }
+
+    /* Ajuste de los títulos de categoría para que no se amontonen */
+    .titulo-categoria {
+        font-size: 1.8rem !important;
+        flex-wrap: nowrap; /* Por si el texto es muy largo */
+        margin-top: 0 !important;
+        align-items: center !important;
+        gap: 10px !important; /* Estrechamos el hueco entre palabras */
+        white-space: nowrap !important; /* Obliga a mantenerse en una línea */
+        margin-bottom: 15px !important; /* Estaba en 40px */
+    }
+
+    .titulo-categoria .resaltado {
+        font-size: 1.1em !important; /* Lo bajamos de 1.5em a 1.2em para que quepa */
+        margin-left: 0 !important;
+    }
+
+/* =========================================
+       SECCIONES NOSOTROS
+   ========================================= */
+
+    /* 1. Convertimos el grid en una columna flexible */
+    .contenedor-grid-nosotros {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 40px !important; /* Espacio entre los bloques */
+        padding: 0 20px !important;
+    }
+
+    /* 2. Ajuste del Título (H2) */
+    .columna-texto-izq h2 {
+        font-size: 4rem !important; /* Reducimos el tamaño gigante de 6rem */
+        text-align: center !important;
+        padding-right: 0 !important;
+    }
+
+    /* 3. Ajuste de la imagen ovalada */
+    .marco-ovalado {
+        max-width: 280px !important; /* Más pequeña para que no sature la pantalla */
+        aspect-ratio: 1 / 1.2 !important;
+        border-width: 3px !important;
+    }
+
+    /* 4. Ajuste del texto descriptivo (P) */
+    .columna-texto-der p {
+        font-size: 1.6rem !important; /* Bajamos de 2rem para que sea legible */
+        text-align: center !important;
+        padding-left: 0 !important;
+        line-height: 1.6 !important;
+        font-weight: 800;
+    }
+
+    /* 5. Ajuste del Botón */
+    .boton-guia {
+        margin: 0 auto !important; /* Centrado horizontal */
+        display: block !important;
+        width: fit-content !important;
+        padding: 12px 25px !important;
+        font-size: 1.5rem !important;
+    }
+    
+    /* Reducimos el padding de la sección para que no haya tanto scroll */
+    .seccion-nosotros {
+        padding: 60px 0 !important;
+    }
+    
+    /* =========================================
+       SECCIONES EVENTOS
+   ========================================= */
+
+   .seccion-eventos {
+        padding: 70px 0 !important; /* Bajamos de 100px a 40px */
+    }
+   /* 1. Convertimos el grid de 2 columnas en una sola columna centrada */
+    .contenedor-eventos {
+        display: flex !important;
+        flex-direction: column !important; /* Foto arriba, texto abajo */
+        align-items: center !important;
+        text-align: center !important;
+        gap: 30px !important; /* Espacio entre los bloques */
+        padding: 0 20px !important;
+    }
+
+    /* 2. Aseguramos que la columna de la imagen sea visible y ocupe el ancho */
+    .columna-img-eventos {
+        width: 100% !important;
+        order: -1; /* Forzamos que la foto siempre vaya PRIMERO arriba */
+    }
+
+    .columna-img-eventos img {
+        width: 90% !important; /* Un poco de margen a los lados */
+        max-width: 400px; /* Para que no sea gigante en móviles anchos */
+        margin: 0 auto !important;
+        box-shadow: 10px 10px 0px var(--verde-principal) !important; /* Sombra reducida */
+    }
+
+    /* 3. Ajuste del Título (H2) */
+    .columna-info-eventos h2 {
+        font-size: 4rem !important; /* Reducimos el tamaño de 6rem */
+        letter-spacing: 2px !important; /* Menos espacio entre letras para que quepa */
+        line-height: 1.2 !important;
+        margin-bottom: 50px !important;
+        margin-top: 30px !important;
+    }
+
+    /* 4. Ajuste de los párrafos (P) */
+    .columna-info-eventos p {
+        font-size: 1.6rem !important; /* Bajamos de 2rem para que sea legible */
+        text-align: center !important;
+        padding-left: 0 !important;
+        line-height: 1.6 !important;
+        font-weight: 800;
+    }
+
+    /* 5. Centramos el botón */
+    .contenedor-boton {
+        display: flex !important;
+        justify-content: center !important; /* Centra horizontalmente el contenido */
+        align-items: center !important;
+        width: 100% !important;
+        margin-top: 40px !important;
+    }
+
+    .boton-guia {
+        /* IMPORTANTE: Reset de márgenes y anchos */
+        margin: 0 auto !important; 
+        display: block !important;
+        width: fit-content !important; /* El botón solo mide lo que mide su texto */
+        text-align: center !important;
+        padding: 15px 30px !important;
+    }
+
+    /* =========================================
+       SECCIONES CONTACTO
+   ========================================= */
+
+    .contacto {
+        padding: 50px 15px !important;
+    }
+
+    .contacto-header {
+        margin-bottom: 40px !important; /* Pega el texto a la primera tarjeta */
+    }
+
+    .contacto h2 {
+        font-size: 5rem !important;
+        margin-bottom: 8px !important;
+        letter-spacing: 4px !important;
+    }
+
+    .contacto p {
+        font-size: 1.9rem !important; /* Tamaño más real para móvil */
+        margin-bottom: 0 !important;
+        line-height: 2;
+    }
+
+    /* 2. Ajustar el contenedor y quitar el margen de las tarjetas */
+    .contenedor-contacto {
+        flex-direction: column;
+        margin-top: 15px !important; /* Espacio mínimo entre el texto y la tarjeta */
+        gap: 45px !important;       /* Espacio entre las dos tarjetas */
+        padding: 0 10px !important;
+    }
+
+    .form-tattoo, .info-contacto {
+        margin: 0 auto !important;   /* ELIMINA el margin: 40px 0 que las separaba */
+        padding: 30px !important;    /* Más compacto por dentro */
+        width: 90% !important;
+        min-width: unset !important;
+        border-radius: 20px !important;
+    }
+
+    /* 3. Reducir Labels y textos internos */
+    .form-tattoo h3, .info-contacto h3 {
+        font-size: 2rem !important;
+        margin-bottom: 15px !important;
+    }
+
+    .form-tattoo label, 
+    .dato-item p {
+        font-size: 1.4rem !important; /* Labels y títulos de item pequeños */
+        margin-top: 10px !important;
+        margin-bottom: 2px !important;
+    }
+
+    .form-tattoo input, .form-tattoo textarea {
+        padding: 10px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .dato-item {
+        margin-bottom: 10px !important; /* Pega más los items de contacto */
+        gap: 10px !important;
+    }
+
+    .dato-item a {
+        font-size: 1.4rem !important; /* El dato real (teléfono/email) */
+    }
+    
+    .dato-item i {
+        font-size: 1.4rem !important;
+    }
+
+    /* =========================================
+            FOOTER
+   ========================================= */
+
+   /* 1. Reducir relleno superior de la sección completa */
+    .footer-principal {
+        padding-top: 0px !important; /* Bajamos de 80px a 20px */
+    }
+
+    .contenedor-footer {
+        display: flex !important;
+        flex-direction: row !important; /* Enlaces y Redes a los lados */
+        flex-wrap: wrap; /* Permite que el copyright baje si no cabe */
+        justify-content: space-between !important;
+        align-items: flex-start !important;
+        padding: 0 10px 20px !important; /* 0 padding arriba */
+        gap: 15px !important;
+    }
+
+    .enlaces-footer {
+        margin-bottom: 10px !important;
+    }
+
+    /* 2. Columna Izquierda: Enlaces (Ajustamos tamaño para que quepan) */
+    .columna-footer-izq {
+        flex: 1;
+        text-align: center !important;
+        padding-right: 10px;
+        margin-top: 20px; /* Bajamos un poco para alinear con los enlaces */
+    }
+
+    .enlaces-footer a {
+        font-size: 1.5rem !important; /* Más pequeño para que quepa en línea */
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .copy-web {
+        width: 100%; /* El copyright lo mandamos abajo del todo */
+        order: 4;
+        font-size: 1.2rem !important;
+        text-align: center !important;
+        margin-top: 10px !important;
+    }
+
+    /* 3. Columna Centro: El Logo (Lo hacemos más pequeño) */
+    .columna-footer-centro {
+        flex: 0 0 100px; 
+        order: 2;
+        height: 0; /* CAMBIO CLAVE: Quitamos altura para que el logo mande */
+        position: relative;
+    }
+
+    .logo-footer-wrap {
+        width: 130px !important; /* Ancho más compacto */
+        height: 180px !important; /* Más alto que ancho */
+        border-radius: 0 0 100px 100px  !important; /* Volvemos al arco */
+        position: relative !important; /* Para que fluya con el flex */
+        top: 0 !important;      /* Pegado arriba */
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        
+        /* Sombra invertida (opcional, para dar profundidad hacia abajo) */
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3) !important;
+        
+        margin-bottom: 20px !important; /* Espacio con lo que sigue */
+        z-index: 10;
+    }
+
+    .logo-footer-wrap img {
+        width: 100px !important;
+        margin-top: 20px !important;
+    }
+
+    /* 4. Columna Derecha: Redes y Legales */
+    .columna-footer-der {
+        flex: 1;
+        text-align: center !important;
+        align-items: center !important;
+        order: 3;
+        margin-top: 20px; /* Bajamos un poco para alinear con los enlaces */
+    }
+
+    .redes-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 25px !important; /* Pegamos los iconos */
+        margin-bottom: 20px !important;
+        justify-content: center !important;
+    }
+
+    .redes-footer i {
+        font-size: 2.5rem !important; /* Iconos mucho más pequeños */
+    }
+
+    .legales-footer {
+        display: flex;
+        flex-direction: column;
+        text-align: center !important;
+        gap: 5px;
+    }
+
+    .legales-footer a {
+        font-size: 1.2rem !important;
+        margin-left: 0 !important;
+    }
+
+}
+
+/* =================================================================================================
+   RESPONSIVOS PARA TABLET (iPad, etc.)
+===================================================================================================*/
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .menu-toggle {
+        width: 80px !important;
+        height: 50px !important;
+        font-size: 4rem !important; /* Icono más grande y visible */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+    }
+
+    .hero-tattoo {
+        height: auto !important; 
+        min-height: 50vh !important; /* Le damos altura de sobra */
+        display: flex !important;
+        flex-direction: column !important; 
+        justify-content: center !important; /* Centra verticalmente */
+        align-items: center !important;    /* Centra horizontalmente */
+        text-align: center !important;
+        padding: 40px !important; /* Espacio arriba para el menú */
+    }
+
+    .contenido-hero {
+        max-width: 70% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 30px !important; /* Espacio entre h1, p y botón */
+    }
+
+    .contenido-hero h1 {
+        font-size: 5rem !important; /* Tamaño potente para tablet */
+        line-height: 1.1;
+    }
+
+    .contenido-hero p {
+        font-size: 2rem !important;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    /* 3. El botón: Aseguramos que sea hijo de un flex centrado */
+    .boton-accion {
+        margin-top: 30px !important;
+        display: inline-block !important;
+        width: fit-content !important;
+    }
+
+    .footer-principal {
+        padding-top: 0 !important; /* Mantenemos el nacimiento desde arriba */
+    }
+
+    /* =========================================
+                 SECCIÓN PORTAFOLIO 
+   ========================================= */
+
+    /* 1. Reset para que los textos no floten fuera de la tarjeta */
+    .tarjeta-medida h3, 
+    .tarjeta-medida p {
+        position: relative !important; /* Los sacamos del sistema de coordenadas de escritorio */
+        bottom: auto !important;
+        left: auto !important;
+        transform: none !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    /* 2. Contenedor de información: Oculto por defecto */
+    .info-tarjeta {
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        padding: 30px 15px !important;
+        z-index: 10 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        
+        /* Efecto de aparecer */
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transition: all 0.4s ease-in-out !important;
+        background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 70%, transparent 100%) !important;
+    }
+
+    /* 3. El Título y su línea verde */
+    .info-tarjeta h3 {
+        font-size: 1.5rem !important;
+        color: white !important;
+        text-transform: uppercase !important;
+        padding-bottom: 10px !important; /* Espacio para la línea */
+        line-height: 1 !important;
+    }
+
+    .info-tarjeta h3::after {
+        content: "" !important;
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 50px !important;
+        height: 3px !important;
+        background-color: #5b7065 !important; /* Tu verde */
+        visibility: visible !important;
+    }
+
+    /* 4. El Párrafo: Pegado a la línea */
+    .info-tarjeta p {
+        font-size: 1rem !important;
+        margin-top: 12px !important; /* Distancia exacta tras la línea */
+        line-height: 1.3 !important;
+        color: rgba(255,255,255,0.9) !important;
+    }
+
+    /* 5. EL HOVER: Cuando tocas la tarjeta, sale todo */
+    .tarjeta-medida:hover .info-tarjeta {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    .tarjeta-medida:hover img {
+        transform: scale(1.1) !important;
+        filter: brightness(0.6) !important; /* Oscurece la imagen para leer mejor */
+    }
+
+    /* 6. Mantener las 3 columnas en tablet */
+    .tarjeta-medida {
+        width: calc(33.33% - 20px) !important;
+        height: 420px !important;
+        overflow: hidden !important;
+        border-radius: 10px !important;
+    }
+
+    /* =========================================
+                 SECCIÓN NOSOTROS 
+   ========================================= */
+
+    .seccion-nosotros {
+        padding-top: 20px !important;
+        padding-bottom: 20px !important;
+    }
+
+    .contenedor-grid-nosotros {
+        display: grid !important;
+        /* INVERTIMOS: 1.2fr para el texto (izq) y 1fr para el óvalo (der) */
+        grid-template-columns: 1.2fr 1fr !important; 
+        grid-template-areas: 
+            "titulo imagen"
+            "parrafo imagen" !important;
+        align-items: center !important;
+        gap: 40px !important; /* Un poco de aire entre el texto y el óvalo */
+        padding: 50px 30px !important;
+        max-width: 95% !important;
+        margin: 0 auto !important;
+    }
+
+    /* 1. Bloque de Texto a la IZQUIERDA */
+    .columna-texto-izq {
+        grid-area: titulo !important;
+        grid-column: 1 !important; /* Forzamos columna 1 */
+        align-self: end !important;
+        padding-right: 0 !important;
+        margin-bottom: -15px !important; 
+        text-align: left !important;
+    }
+
+    .columna-texto-izq h2 {
+        font-size: 3.5rem; /* Tu tamaño intacto */
+        line-height: 1.2;
+        margin: 0 !important;
+    }
+
+    .columna-texto-der {
+        grid-area: parrafo !important;
+        grid-column: 1 !important; /* Forzamos columna 1 */
+        align-self: start !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important; /* Alineación vertical perfecta */
+    }
+
+    .columna-texto-der p {
+        font-size: 1.8rem !important; /* Tu tamaño intacto */
+        margin-bottom: 20px !important;
+        padding-left: 0 !important; /* Limpiamos el padding de escritorio */
+        margin-left: 0 !important;
+    }
+
+    /* 2. El Óvalo a la DERECHA */
+    .columna-media-centro {
+        grid-area: imagen !important;
+        grid-column: 2 !important; /* Forzamos columna 2 */
+        display: flex !important;
+        justify-content: flex-start !important; /* Pegado al texto */
+    }
+
+    .marco-ovalado {
+        max-width: 320px !important; /* Tu tamaño intacto */
+        margin: 0 !important;
+    }
+
+    /* 3. El Botón: Alineado a la izquierda con el texto */
+    .columna-texto-der .boton-guia {
+        width: fit-content !important;
+        margin-left: 0 !important; /* Limpiamos el margin de escritorio */
+        padding: 15px 20px !important;
+    }
+
+
+    /* =========================================
+                 SECCIÓN EVENTOS 
+   ========================================= */
+
+    .seccion-eventos {
+        padding: 50px 30px !important;
+    }
+    .contenedor-eventos {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important; /* Dos columnas iguales */
+        align-items: center !important;
+        gap: 20px !important;
+        padding: 10px 30px !important;
+    }
+
+    /* 2. Columna Imagen (Izquierda) */
+    .columna-img-eventos {
+        order: 1 !important; /* Aseguramos que sea la primera */
+        width: 100% !important;
+    }
+
+    .columna-img-eventos img {
+        width: 100% !important;
+        max-width: 400px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        /* Si quieres mantener la sombra verde que vimos antes */
+        box-shadow: 15px 15px 0px var(--verde-principal) !important;
+    }
+
+    /* 3. Columna Info (Derecha) */
+    .columna-info-eventos {
+        order: 2 !important;
+        text-align: left !important; /* Texto alineado a la izquierda para leer mejor */
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .columna-info-eventos h2 {
+        font-size: 3rem !important; /* Ajustamos para que no se vea gigante */
+        padding-left: 30px !important;
+        margin-bottom: 20px !important;
+        line-height: 1.2;
+    }
+
+    .columna-info-eventos p {
+        font-size: 1.8rem !important;
+        padding-left: 30px !important;
+        margin-bottom: 0;
+    }
+
+    /* 4. Centramos el botón dentro de su columna */
+    .contenedor-boton {
+        justify-content: flex-start !important; /* Alineado al texto */
+        margin-top: 20px !important;
+    }
+
+    /* =========================================
+                 SECCIÓN CONTACTO 
+   ========================================= */
+   /* Reducimos el espacio superior e inferior de toda la sección */
+    .contacto {
+        padding: 40px 0 !important;
+    }
+    
+    /* 1. Reducimos el margen inferior del texto de cabecera */
+    .contacto-header {
+        margin-bottom: 20px !important; /* Estaba probablemente en 40px o 50px */
+    }
+
+    .contacto-header p {
+        margin-bottom: 0 !important; /* Eliminamos margen extra del párrafo */
+    }
+
+    /* 2. Reducimos el espacio superior del contenedor de las tarjetas */
+    .contenedor-contacto {
+        margin-top: 10px !important;
+        gap: 20px !important; /* Esto también reduce el espacio ENTRE las dos tarjetas */
+    }
+
+    /* Reducimos el relleno interno de las dos tarjetas blancas */
+    .form-tattoo, 
+    .info-contacto {
+        padding: 25px !important; /* Aquí es donde reducimos el "relleno de dentro" */
+    }
+
+    /* Opcional: reducimos un poco el margen entre el título H3 y los campos */
+    .form-tattoo h3, 
+    .info-contacto h3 {
+        margin-bottom: 15px !important;
+        padding: 10px;
+        
+    }
+
+    .info-contacto h3 {
+        margin-bottom: 30px !important;
+    }
+
+    /* Hacemos que los espacios entre los datos de contacto sean más pequeños */
+    .dato-item {
+        margin-bottom: 15px !important;
+    }
+
+    /* Reducimos el margen inferior de los inputs para compactar el formulario */
+    .form-tattoo input, 
+    .form-tattoo textarea {
+        margin-bottom: 12px !important;
+    }
+
+    /* =========================================
+                 SECCIÓN FOOTER 
+   ========================================= */
+
+    .contenedor-footer {
+        display: grid !important;
+        grid-template-columns: 1fr 150px 1fr !important; 
+        align-items: start !important; 
+        padding: 0 30px 40px !important;
+        gap: 20px;
+    }
+
+    /* 1. EL LOGO: Perfectamente centrado en el óvalo verde */
+    .columna-footer-centro {
+        position: relative;
+        height: 100px;
+    }
+
+    .logo-footer-wrap {
+        width: 180px !important;
+        height: 200px !important;
+        display: flex !important;
+        justify-content: center !important; /* Centrado horizontal */
+        align-items: center !important;     /* Centrado vertical */
+        border-radius: 0 0 100px 100px !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .logo-footer-wrap img {
+        max-width: 80% !important; /* Asegura que no toque los bordes del óvalo */
+        height: auto !important;
+        margin: 0 !important;
+    }
+
+    /* 2. REDES Y POLÍTICAS: En columna centrada a la derecha */
+    .columna-footer-der {
+        display: flex !important;
+        flex-direction: column !important; /* Activa la columna */
+        align-items: center !important;     /* Centra los iconos y textos entre sí */
+        text-align: right !important;      /* Centra el texto de las políticas */
+        padding-top: 40px;
+    }
+
+    .redes-footer {
+        display: flex !important;
+        flex-direction: column !important; /* Iconos uno debajo de otro */
+        gap: 15px !important;               /* Espacio entre iconos */
+        margin-bottom: 45px !important;    /* Espacio antes de las políticas */
+        margin-left: 0 !important;
+        align-items: flex-end !important;
+    }
+
+    .redes-footer i {
+        font-size: 3.6rem !important;
+    }
+
+    /* Políticas debajo de las redes en columna */
+    .legales-footer {
+        display: flex !important;
+        flex-direction: column !important; /* Texto en vertical */
+        gap: 10px !important;
+        font-size: 1.5rem;
+    }
+
+    .legales-footer a {
+        margin: 0 !important; /* Quitamos márgenes laterales de escritorio */
+    }
+
+    /* Izquierda y Copy se mantienen como los tenías */
+    .columna-footer-izq {
+        text-align: center !important;
+        padding-top: 40px;
+    }
+
+    .enlaces-footer a {
+        font-size: 1.8rem !important;
+    }
+
+    .copy-web {
+        grid-column: 1 / span 3;
+        text-align: center !important;
+        margin-top: 50px !important;
+        font-size: 1.3rem !important;
+        text-align: center !important;
+    }
+}
