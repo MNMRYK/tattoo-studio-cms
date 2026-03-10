@@ -694,15 +694,24 @@ body {
 .seccion-eventos {
     padding: 100px 0;
     display: flex;
+    flex-direction: column; /* Esto es la clave: los pone en vertical */
+    align-items: center;    /* Los centra horizontalmente */
+    gap: 100px;
     justify-content: center;
 }
 
 .contenedor-eventos {
-    display: grid;
+    display: grid !important;
     grid-template-columns: 1fr 1fr; /* Mitad y mitad */
     align-items: center;
     gap: 80px; /* Mucho espacio para que respire como la foto original */
     max-width: 1200px;
+    margin: 0 auto; /* Centra el contenedor */
+}
+
+.columna-img-eventos {
+    grid-column: 1; /* Forzamos a que sea la columna 1 */
+    width: 100%;
 }
 
 /* Imagen con bordes rectos o ligeramente redondeados */
@@ -713,12 +722,17 @@ body {
     box-shadow: 20px 20px 0px var(--verde-principal); /* Un detalle de diseño para tu marca */
 }
 
+.columna-info-eventos {
+    grid-column: 2; /* Forzamos a que sea la columna 2 */
+}
+
 .columna-info-eventos h2 {
     font-family: 'Oswald', sans-serif;
-    font-size: 6rem;          /* Grande y potente */
+    font-size: 5rem;          /* Grande y potente */
     text-transform: uppercase;
-    letter-spacing: 7px;        /* Mucho espacio entre letras (estilo lujo) */
+    letter-spacing: 6px;        /* Mucho espacio entre letras (estilo lujo) */
     color: white;
+    line-height: 1.3;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Sombra muy sutil */
     margin-bottom: 30px;
 }
@@ -733,6 +747,7 @@ body {
 }
 
 .columna-info-eventos p {
+    white-space: pre-line;
     font-family: 'Montserrat', sans-serif;
     font-size: 2rem;
     color: var(--fondo-secundario);
@@ -744,6 +759,27 @@ body {
 /* Alineación del botón */
 .contenedor-boton {
     margin-top: 40px;
+}
+
+/* Añade espacio entre la introducción y los eventos de Sanity */
+#sanity-eventos-container {
+    width: 100%;            /*  Para que ocupe todo el ancho del max-width */
+    max-width: 1200px;      /*  Para que no se estire más que el de arriba */
+    margin-top: 0;
+}
+
+/* Forzamos el grid específicamente para el contenedor que viene de Sanity */
+#sanity-eventos-container .contenedor-eventos {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    align-items: center !important;
+    gap: 80px !important;
+    width: 100% !important;
+}
+
+/* Aseguramos que la imagen no rompa el grid */
+#sanity-eventos-container .columna-img-eventos {
+    width: 100% !important;
 }
 
 /* =========================================

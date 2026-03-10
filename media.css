@@ -58,6 +58,12 @@
 
 @media (max-width: 768px) {
 
+    html, body {
+        overflow-x: hidden !important;
+        position: relative;
+        width: 100%;
+    }
+    
     .hero {
         padding-top: 60px !important; /* Quitamos el padding de arriba casi del todo */
         min-height: 90vh !important; /* Le damos altura suficiente para el botón */
@@ -223,7 +229,7 @@
         margin-top: 0 !important;
         align-items: center !important;
         gap: 10px !important; /* Estrechamos el hueco entre palabras */
-        white-space: nowrap !important; /* Obliga a mantenerse en una línea */
+        white-space: normal !important; /* Obliga a mantenerse en una línea */
         margin-bottom: 15px !important; /* Estaba en 40px */
     }
 
