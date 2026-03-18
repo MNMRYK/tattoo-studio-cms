@@ -111,7 +111,7 @@
     .hero-tattoo {
         /* 1. Ponemos la imagen de la derecha como fondo de toda la sección */
         background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-                          url('img/hero3.jpg'); /* Asegúrate de que esta sea la ruta a la foto de la mano */
+                          url('/img/hero3.jpg'); /* Asegúrate de que esta sea la ruta a la foto de la mano */
         background-size: cover;
         background-position: center;
         background-attachment: scroll; /* En móvil 'fixed' a veces da tirones */
