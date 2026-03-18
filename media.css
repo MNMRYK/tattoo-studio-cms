@@ -8,7 +8,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 20px;
+        padding: auto;
         background-color: #949c9c; 
         z-index: 2000;
         box-sizing: border-box; /* Evita que el padding ensanche el menú */
@@ -30,24 +30,29 @@
         left: 0;
         width: 100%;
         background-color: #949c9c;
-        padding: auto;
+        padding: 10px 0 !important; /* Reduce el padding superior e inferior */
+        margin: 0 !important;
         z-index: 1000;
         list-style: none; /* Quita los puntos de la lista */
     }
-    
+
     ul.nav-list.active {
         gap: 20px;
     }
-    
     /* Cuando el JS añade la clase 'active' */
     .nav-list.active {
-        gap: 20px;
         display: flex !important;
         padding: 10px 0 !important; /* Reduce el área clicable de cada enlace */
         margin: 0 !important;
     }
 
     .nav-list li {
+        margin: 0 !important; 
+        padding: 0 !important;
+        text-align: center;
+    }
+
+    .nav-list li a {
         display: block;
         padding: 3px 0 !important; /* Reduce el área clicable de cada enlace */
         margin: 0 !important;
@@ -71,6 +76,8 @@
         overflow-x: hidden !important;
         position: relative;
         width: 100%;
+        margin: 0 !important;
+        padding: 0 !important;
     }
     
     .hero {
@@ -302,8 +309,12 @@
    ========================================= */
 
    .seccion-eventos {
-        padding: 70px 0 !important; /* Bajamos de 100px a 40px */
+        padding: 60px 0 !important; /* Bajamos de 100px a 40px */
+        width: 100% !important;
+        max-width: 100vw !important; /* Forza a no superar el ancho de pantalla */
+        overflow: hidden !important; /* IMPORTANTE: Corta cualquier desborde */
     }
+    
    /* 1. Convertimos el grid de 2 columnas en una sola columna centrada */
     .contenedor-eventos {
         display: flex !important;
@@ -311,29 +322,40 @@
         align-items: center !important;
         text-align: center !important;
         gap: 30px !important; /* Espacio entre los bloques */
-        padding: 0 20px !important;
+        padding: 0 30px !important;
+        width: 100% !important;
+        box-sizing: border-box !important; /* Fundamental para que el padding no sume ancho */
     }
 
     /* 2. Aseguramos que la columna de la imagen sea visible y ocupe el ancho */
     .columna-img-eventos {
         width: 100% !important;
+        max-width: 100% !important;
         order: -1; /* Forzamos que la foto siempre vaya PRIMERO arriba */
     }
 
     .columna-img-eventos img {
-        width: 90% !important; /* Un poco de margen a los lados */
-        max-width: 400px; /* Para que no sea gigante en móviles anchos */
+        width: 100% !important; 
+        height: auto !important;
+        display: block;
         margin: 0 auto !important;
-        box-shadow: 10px 10px 0px var(--verde-principal) !important; /* Sombra reducida */
+        /* Si la sombra verde causa el desborde, redúcela o cámbiala por un borde */
+        box-shadow: 8px 8px 0px var(--verde-principal) !important;
+    }
+
+    .columna-info-eventos {
+        padding: 0 35px !important; 
+        text-align: center !important;
     }
 
     /* 3. Ajuste del Título (H2) */
     .columna-info-eventos h2 {
-        font-size: 4rem !important; /* Reducimos el tamaño de 6rem */
+        font-size: 3.2rem !important; /* Reducimos el tamaño de 6rem */
         letter-spacing: 2px !important; /* Menos espacio entre letras para que quepa */
         line-height: 1.2 !important;
         margin-bottom: 50px !important;
         margin-top: 30px !important;
+        padding: 0 20px !important; /* Bajamos de 100px a 40px */
     }
 
     /* 4. Ajuste de los párrafos (P) */
@@ -539,6 +561,15 @@
     .legales-footer a {
         font-size: 1.2rem !important;
         margin-left: 0 !important;
+    }
+
+    /* --- AJUSTE DE VELOCIDAD DE ANIMACIÓN PARA MÓVIL --- */
+    .reveal {
+        transition: all 0.5s ease-out !important; /* Animación más rápida que en PC */
+    }
+
+    .delay-1, .delay-2, .delay-3, .delay-4, .delay-5, .delay-6 {
+        transition-delay: 0.1s !important; /* Casi instantáneo para que no parezca que la web tarda en cargar */
     }
 
 }
