@@ -164,8 +164,8 @@ body {
     /* IMAGEN DE FONDO: Usamos un degradado negro transparente (0.6) sobre la foto para que el texto blanco se lea bien */
     background-image: 
         linear-gradient(rgba(0,0,0,0.0), rgba(0,0,0,0.0)),
-        url('img/hero1.jpg'),
-        url('img/hero3.jpg');
+        url('/img/hero1.jpg'),
+        url('/img/hero3.jpg');
    /* Controlamos el tamaño de cada una en el mismo orden */
     background-size: 
         cover,      /* El degradado cubre todo */
