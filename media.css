@@ -111,19 +111,19 @@
     .hero-tattoo {
         /* 1. Ponemos la imagen de la derecha como fondo de toda la sección */
         background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-                          url('img/hero3.jpg'); /* Asegúrate de que esta sea la ruta a la foto de la mano */
+                          url('../img/hero3.jpg'); /* Asegúrate de que esta sea la ruta a la foto de la mano */
         background-size: cover;
         background-position: center;
         background-attachment: scroll; /* En móvil 'fixed' a veces da tirones */
         
         /* 2. Centramos todo el contenido */
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         text-align: center;
         height: auto !important; 
-        min-height: 60vh !important; /* Ahora el fondo negro crecerá si el texto es largo */
-        padding: 30px 20px 30px !important;
+        min-height: auto !important; /* Ahora el fondo negro crecerá si el texto es largo */
+        padding: 120px 20px 40px !important;
     }
 
     .contenido-hero {
@@ -135,7 +135,7 @@
     }
 
     .contenido-hero h1 {
-        font-size: 4rem !important; /* Ajustamos el tamaño para que no desborde */
+        font-size: 3.2rem !important; /* Ajustamos el tamaño para que no desborde */
         margin-bottom: 15px;
     }
 
